@@ -1,15 +1,30 @@
 package com.hcltech.courseacademy.dto;
 
-import java.util.Objects;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-// This DTO should be in com.hcltech.CourseAcademyService.DTO package
 public class AuthorDTO {
     private Long id;
-    private String firstname;
-    private String lastname;
-    private String email; // Using lowercase 'email' here for DTO, common practice
 
-    // AllArgsConstructor
+    @NotBlank(message = "First name is required")
+    @Size(max = 100, message = "First name cannot exceed 100 characters")
+    private String firstname;
+
+    @NotBlank(message = "Last name is required")
+    @Size(max = 100, message = "Last name cannot exceed 100 characters")
+    private String lastname;
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
+    @Size(max = 255, message = "Email cannot exceed 255 characters")
+    private String email;
+
+    // No-argument constructor
+    public AuthorDTO() {
+    }
+
+    // All-argument constructor
     public AuthorDTO(Long id, String firstname, String lastname, String email) {
         this.id = id;
         this.firstname = firstname;
@@ -17,11 +32,15 @@ public class AuthorDTO {
         this.email = email;
     }
 
-    // NoArgsConstructor
-    public AuthorDTO() {
+    public AuthorDTO(long l, String johnDoe, String mail) {
+
     }
 
-    // Getters
+    public AuthorDTO(Long o, String johnDoe, String mail) {
+
+    }
+
+    // --- Getters ---
     public Long getId() {
         return id;
     }
@@ -38,7 +57,7 @@ public class AuthorDTO {
         return email;
     }
 
-    // Setters
+    // --- Setters ---
     public void setId(Long id) {
         this.id = id;
     }
@@ -55,44 +74,7 @@ public class AuthorDTO {
         this.email = email;
     }
 
-    // Builder Pattern (Optional, but good practice for DTOs)
-    public static AuthorDTOBuilder builder() {
-        return new AuthorDTOBuilder();
-    }
-
-    public static class AuthorDTOBuilder {
-        private Long id;
-        private String firstname;
-        private String lastname;
-        private String email;
-
-        AuthorDTOBuilder() {}
-
-        public AuthorDTOBuilder id(Long id) { this.id = id; return this; }
-        public AuthorDTOBuilder firstname(String firstname) { this.firstname = firstname; return this; }
-        public AuthorDTOBuilder lastname(String lastname) { this.lastname = lastname; return this; }
-        public AuthorDTOBuilder email(String email) { this.email = email; return this; }
-
-        public AuthorDTO build() {
-            return new AuthorDTO(id, firstname, lastname, email);
-        }
-    }
-
-    // equals and hashCode
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AuthorDTO authorDTO = (AuthorDTO) o;
-        return Objects.equals(id, authorDTO.id) && Objects.equals(firstname, authorDTO.firstname) && Objects.equals(lastname, authorDTO.lastname) && Objects.equals(email, authorDTO.email);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstname, lastname, email);
-    }
-
-    // toString
+    // Optional: Override toString() for better logging/debugging
     @Override
     public String toString() {
         return "AuthorDTO{" +

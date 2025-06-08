@@ -22,6 +22,16 @@ public class CourseDTO {
     public CourseDTO() {
     }
 
+    public CourseDTO(Long id, String title, String description, Long id1) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
+
+    public CourseDTO(long id, String introductionToJava, String learnJavaBasics, long l, String johnDoe) {
+
+    }
+
 
     public Long getId() {
         return id;

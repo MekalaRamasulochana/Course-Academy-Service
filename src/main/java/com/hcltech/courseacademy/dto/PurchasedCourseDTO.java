@@ -1,17 +1,22 @@
+// Assuming this is your DTO. If not, please provide its current content.
 package com.hcltech.courseacademy.dto;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate; // Use LocalDate for consistency
 
 public class PurchasedCourseDTO {
     private Long id;
+    @NotNull(message = "Student ID cannot be null")
     private Long studentId;
+    @NotNull(message = "Course ID cannot be null")
     private Long courseId;
-    private LocalDateTime purchaseDate;
-    private boolean completed;
+    @NotNull(message = "Purchase date cannot be null")
+    private LocalDate purchaseDate; // Changed to LocalDate
+    private Boolean completed; // Use Boolean wrapper for DTO, allows null if not always present
 
+    public PurchasedCourseDTO() {}
 
-    public PurchasedCourseDTO(Long id, Long studentId, Long courseId, LocalDateTime purchaseDate, boolean completed) {
+    public PurchasedCourseDTO(Long id, Long studentId, Long courseId, LocalDate purchaseDate, Boolean completed) {
         this.id = id;
         this.studentId = studentId;
         this.courseId = courseId;
@@ -19,16 +24,12 @@ public class PurchasedCourseDTO {
         this.completed = completed;
     }
 
-
-    public PurchasedCourseDTO() {
-    }
-
-
+    // Getters
     public Long getId() {
         return id;
     }
 
-    public String getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
@@ -36,15 +37,15 @@ public class PurchasedCourseDTO {
         return courseId;
     }
 
-    public LocalDateTime getPurchaseDate() {
+    public LocalDate getPurchaseDate() { // Changed to LocalDate
         return purchaseDate;
     }
 
-    public boolean isCompleted() {
+    public Boolean getCompleted() { // Changed to Boolean
         return completed;
     }
 
-
+    // Setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -57,78 +58,13 @@ public class PurchasedCourseDTO {
         this.courseId = courseId;
     }
 
-    public void setPurchaseDate(LocalDateTime purchaseDate) {
+    public void setPurchaseDate(LocalDate purchaseDate) { // Changed to LocalDate
         this.purchaseDate = purchaseDate;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) { // Changed to Boolean
         this.completed = completed;
     }
-
-
-    public static PurchasedCourseDTOBuilder builder() {
-        return new PurchasedCourseDTOBuilder();
-    }
-
-    public static class PurchasedCourseDTOBuilder {
-        private Long id;
-        private Long studentId;
-        private Long courseId;
-        private LocalDateTime purchaseDate;
-        private boolean completed;
-
-        PurchasedCourseDTOBuilder() {
-        }
-
-        public PurchasedCourseDTOBuilder id(Long id) {
-            this.id = id;
-            return this;
-        }
-
-        public PurchasedCourseDTOBuilder studentId(Long studentId) {
-            this.studentId = studentId;
-            return this;
-        }
-
-        public PurchasedCourseDTOBuilder courseId(Long courseId) {
-            this.courseId = courseId;
-            return this;
-        }
-
-        public PurchasedCourseDTOBuilder purchaseDate(LocalDateTime purchaseDate) {
-            this.purchaseDate = purchaseDate;
-            return this;
-        }
-
-        public PurchasedCourseDTOBuilder completed(boolean completed) {
-            this.completed = completed;
-            return this;
-        }
-
-        public PurchasedCourseDTO build() {
-            return new PurchasedCourseDTO(id, studentId, courseId, purchaseDate, completed);
-        }
-
-        @Override
-        public String toString() {
-            return "PurchasedCourseDTO.PurchasedCourseDTOBuilder(id=" + this.id + ", studentId=" + this.studentId + ", courseId=" + this.courseId + ", purchaseDate=" + this.purchaseDate + ", completed=" + this.completed + ")";
-        }
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PurchasedCourseDTO that = (PurchasedCourseDTO) o;
-        return completed == that.completed && Objects.equals(id, that.id) && Objects.equals(studentId, that.studentId) && Objects.equals(courseId, that.courseId) && Objects.equals(purchaseDate, that.purchaseDate);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, studentId, courseId, purchaseDate, completed);
-    }
-
 
     @Override
     public String toString() {

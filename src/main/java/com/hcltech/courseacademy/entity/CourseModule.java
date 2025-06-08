@@ -1,11 +1,11 @@
-package com.hcltech.courseacademy.entity;
+package com.hcltech.courseacademy.entity; // Corrected package name
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "modules")
-public class Module {
+public class CourseModule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,28 +16,25 @@ public class Module {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    private Course course; // Ensure Course entity is in the correct package too
 
-
-    public Module() {
+    public CourseModule() {
     }
 
-    public Module(String title, String content, Course course) {
+    public CourseModule(String title, String content, Course course) {
         this.title = title;
         this.content = content;
         this.course = course;
     }
 
-    public Module(Long id, String title, String content, Course course) {
+    public CourseModule(Long id, String title, String content, Course course) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.course = course;
     }
-
 
     public Long getId() {
         return id;
@@ -55,7 +52,6 @@ public class Module {
         return course;
     }
 
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,12 +68,11 @@ public class Module {
         this.course = course;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Module module = (Module) o;
+        CourseModule module = (CourseModule) o;
         return Objects.equals(id, module.id);
     }
 
@@ -92,7 +87,7 @@ public class Module {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
-                ", courseId=" + (course != null ? course.getId() : "null") + // Reference course by ID
+                ", courseId=" + (course != null ? course.getId() : "null") +
                 '}';
     }
 }

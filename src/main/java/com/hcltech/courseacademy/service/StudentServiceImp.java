@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-public class StudentServiceImpl implements StudentService {
+public class StudentServiceImp implements StudentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentServiceImp.class);
     private final StudentRepository studentRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository) {
+    public StudentServiceImp(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
@@ -52,7 +52,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO getStudentById(Long id) {
         logger.info("Attempting to retrieve student with ID: {}", id);
-        Student student = studentRepository.findById(String.valueOf(id))
+        Student student = studentRepository.findById((id))
                 .orElseThrow(() -> {
                     logger.warn("Student not found with ID: {}", id);
                     return new NoSuchElementException("Student not found with ID: " + id);
@@ -93,7 +93,7 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public StudentDTO updateStudent(Long id, StudentDTO studentDTO) {
         logger.info("Attempting to update student with ID: {}", id);
-        Student existingStudent = studentRepository.findById(String.valueOf(id))
+        Student existingStudent = studentRepository.findById(id)
                 .orElseThrow(() -> {
                     logger.warn("Student not found for update with ID: {}", id);
                     return new NoSuchElementException("Student not found with ID: " + id);
@@ -127,11 +127,11 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public void deleteStudent(Long id) {
         logger.info("Attempting to delete student with ID: {}", id);
-        if (!studentRepository.existsById(String.valueOf(id))) {
+        if (!studentRepository.existsById(id)) {
             logger.warn("Student not found for deletion with ID: {}", id);
             throw new NoSuchElementException("Student not found with ID: " + id);
         }
-        studentRepository.deleteById(String.valueOf(id));
+        studentRepository.deleteById(id);
         logger.info("Successfully deleted student with ID: {}", id);
     }
 

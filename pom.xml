@@ -5,70 +5,101 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.6</version>
-		<relativePath/> </parent>
-	<groupId>com.hcltech</groupId>
-	<artifactId>CourseAcademyService</artifactId>
+		<version>2.7.18</version> <!-- Use a stable Spring Boot version compatible with your setup -->
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.hcltech.courseacademy</groupId>
+	<artifactId>Course-Academy-Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>CourseAcademyService</name>
-	<description>Demo project for Spring Boot</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	<name>Course-Academy-Service</name>
+	<description>Demo project for Spring Boot Course Academy</description>
+
 	<properties>
-		<java.version>21</java.version>
-		<maven.compiler.source>21</maven.compiler.source>
-		<maven.compiler.target>21</maven.compiler.target>
+		<java.version>21</java.version> <!-- Ensure this matches your JDK version -->
+		<springdoc-openapi.version>1.6.14</springdoc-openapi.version> <!-- Stable version for Spring Boot 2.7.x -->
 	</properties>
+
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+		<!-- Spring Boot Starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-validation</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.projectlombok</groupId>-->
-<!--			<artifactId>lombok</artifactId>-->
-<!--			<optional>true</optional>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
+			<artifactId>spring-boot-starter-validation</artifactId> <!-- For @Valid and validation annotations -->
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId> <!-- Optional: For production-ready features like health checks -->
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
+
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- Lombok (Highly Recommended for reducing boilerplate code for DTOs and Entities) -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- Swagger UI / OpenAPI Documentation -->
+		<!-- Using Springdoc OpenAPI, which is the more modern approach for Spring Boot 2+ -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc-openapi.version}</version>
+		</dependency>
+
+		<!-- Testing Dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<!-- Exclude JUnit Vintage engine to avoid conflicts if using JUnit 5 -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+
+		<!-- Mockito (often included with spring-boot-starter-test, but explicit if needed) -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Jacoco for test coverage (Maven Plugin, not directly a dependency) -->
+		<!-- SonarQube integration is usually done via SonarQube Scanner or Maven plugin -->
+
+		<!-- For mapping DTOs to Entities (Optional, but useful if you plan to use it)
+             If you choose MapStruct or ModelMapper, add it here.
+             For example, for MapStruct:
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.5.Final</version>
+        </dependency>
+        -->
+
 	</dependencies>
 
 	<build>
@@ -77,14 +108,82 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-<!--					<excludes>-->
-<!--						<exclude>-->
-<!--							<groupId>org.projectlombok</groupId>-->
-<!--							<artifactId>lombok</artifactId>-->
-<!--						</exclude>-->
-<!--					</excludes>-->
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+					<compilerArgs>--enable-preview</compilerArgs>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>4.0.0.4121</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- JaCoCo Plugin for Test Coverage Reports -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.11</version> <executions>
+				<execution>
+					<id>prepare-agent</id>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>report</id>
+					<phase>test</phase> <goals>
+					<goal>report</goal>
+				</goals>
+				</execution>
+			</executions>
+			</plugin>
+			<!-- MapStruct Annotation Processor (if you decide to use MapStruct)
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.5.5.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            -->
 		</plugins>
 	</build>
 

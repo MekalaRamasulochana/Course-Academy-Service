@@ -1,58 +1,33 @@
-package com.hcltech.courseacademy.dto;
+package com.hcltech.courseacademy.dto; // Consistent DTO package
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
-public class ModuleDTO {
+@Setter
+@Getter
+public class CourseModuleDTO {
+    // Setters
+    // Getters
     private Long id;
     private String title;
     private String content;
     private Long courseId; // Foreign key to Course
 
-    public ModuleDTO(Long id, String title, String content, Long courseId) {
+    // All-argument constructor
+    public CourseModuleDTO(Long id, String title, String content, Long courseId) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.courseId = courseId;
     }
 
-
-    public ModuleDTO() {
+    // No-argument constructor
+    public CourseModuleDTO() {
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
-
+    // Builder Pattern (optional, but good practice for DTO creation)
     public static ModuleDTOBuilder builder() {
         return new ModuleDTOBuilder();
     }
@@ -86,8 +61,8 @@ public class ModuleDTO {
             return this;
         }
 
-        public ModuleDTO build() {
-            return new ModuleDTO(id, title, content, courseId);
+        public CourseModuleDTO build() {
+            return new CourseModuleDTO(id, title, content, courseId);
         }
 
         @Override
@@ -96,12 +71,12 @@ public class ModuleDTO {
         }
     }
 
-
+    // equals and hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ModuleDTO moduleDTO = (ModuleDTO) o;
+        CourseModuleDTO moduleDTO = (CourseModuleDTO) o;
         return Objects.equals(id, moduleDTO.id) && Objects.equals(title, moduleDTO.title) && Objects.equals(content, moduleDTO.content) && Objects.equals(courseId, moduleDTO.courseId);
     }
 
@@ -110,7 +85,7 @@ public class ModuleDTO {
         return Objects.hash(id, title, content, courseId);
     }
 
-
+    // toString
     @Override
     public String toString() {
         return "ModuleDTO{" +

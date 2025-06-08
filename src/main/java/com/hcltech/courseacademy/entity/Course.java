@@ -1,6 +1,6 @@
 package com.hcltech.courseacademy.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +27,7 @@ public class Course {
     private Author author;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Module> modules = new ArrayList<>();
+    private List<CourseModule> modules = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY)
     private List<PurchasedCourse> purchasedCourses = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Course {
         return author;
     }
 
-    public List<Module> getModules() {
+    public List<CourseModule> getModules() {
         return modules;
     }
 
@@ -102,7 +102,7 @@ public class Course {
         this.author = author;
     }
 
-    public void setModules(List<Module> modules) {
+    public void setModules(List<CourseModule> modules) {
         this.modules = modules;
     }
 
